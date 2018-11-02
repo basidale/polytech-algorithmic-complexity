@@ -1,0 +1,77 @@
+# Miniprojet 1 - Complexité et algorithmique
+#
+### Exercice 1
+#
+### Samples :
+#
+# - Find the first symbol of a word m of size 130 :
+# ADCAADDAAACACDDDABBDBBBDADCBAACCDBADBBCBABBBBDBDABCACBDCCDDDBBBDADCCDDACBCDCABABCABDBBCDADADCDBCBBAABDBCDBDDDCAADBBBDACCACCDCDABCCX1
+## Expected output : A
+#
+# - Find the thirty-sixth symbol of a word m of size 50
+# BAADCCDDBACCDCADABBABAACACDABBADCDDBCDBCADDBBACCACX111111111111111111111111111111111111
+## Expected output : B
+#
+# - Find the last symbol of a word of size 31
+# AACCCBDAACCADCCBBABAAABBDBCBBCDX1111111111111111111111111111111
+## Expected output : D
+#
+# - Try to find a symbol of index greather than the length of m
+# ABABBDBDCCADAACADABAADCCDDCBDCCBDDBACDCDADACCDDBCBDDCACX11111111111111111111111111111111111111111111111111111111111111111111111111111
+## Expected output : X
+
+NEW "EXO1" 2
+START @MOVE_TO_X_ON_TAPE_ONE
+END @YES "YES"
+UNDEFINED @NO "NO"
+
+# Etape 1 : Avance jusque le X
+FROM @MOVE_TO_X_ON_TAPE_ONE
+'A|'B|'C|'D,'_ R,S
+'X,'_ 'X,'_ R,S @WRITE_N_ON_TAPE_TWO
+
+# Etape 2 : Ecriture du nombre n sur la deuxieme bande
+FROM @WRITE_N_ON_TAPE_TWO
+'1,'_ '_,'1 R,R
+'_,'_ L,L @MOVE_TO_WORD_RIGHT_ON_TAPE_ONE
+
+# Etape 3 : Positionnement à droite du mot m sur la première bande
+FROM @MOVE_TO_WORD_RIGHT_ON_TAPE_ONE
+'_,'1 L,S
+'X,'1 L,S @MOVE_TO_WORD_LEFT_ON_TAPE_ONE
+
+# Etape 4 : Positionnement à gauche du mot m sur la première bande
+FROM @MOVE_TO_WORD_LEFT_ON_TAPE_ONE
+'A|'B|'C|'D,'1 L,S
+'_,'1 R,S @MOVE_TO_WORD_LEFT_ON_TAPE_TWO
+
+# Etape 5 : Positionnement à gauche du nombre n sur la seconde bande
+FROM @MOVE_TO_WORD_LEFT_ON_TAPE_TWO
+'A|'B|'C|'D,'1 S,L
+'A|'B|'C|'D,'_ S,R @ERASE_RIGHT
+
+# Etape 6 : Effacage des caractères situé après à n-ème lettre
+FROM @ERASE_RIGHT
+'A|'B|'C|'D,'1 R,R
+'A|'B|'C|'D,'_ '_,'_ R,R
+'X,'_ '_,'_ L,L @MOVE_TO_NTH
+'X,'1 'X,'1 L,L @ERASE_LEFT
+
+# Etape 7 : Positionnement sur la n-ème lettre
+FROM @MOVE_TO_NTH
+'_,'_ L,L
+'A|'B|'C|'D,'1 L,L @ERASE_LEFT
+
+# Etape 8 : Effacage des lettre avant la n-ème lettre
+FROM @ERASE_LEFT
+'A|'B|'C|'D,'1 '_,'1 L,L
+'_,'_ '_,'_ R,R @ERASE_TAPE_TWO
+
+# Etape 9 : Effacage de la seconde bande
+FROM @ERASE_TAPE_TWO
+'A|'B|'C|'D|'_,'1 'A|'B|'C|'D|'_,'_ S,R
+'A|'B|'C|'D|'_,'_ S,L @MOVE_TO_NTH_FINAL
+
+FROM @MOVE_TO_NTH_FINAL
+'_,'_ R,S
+'A|'B|'C|'D|'X,'_ S,S @YES

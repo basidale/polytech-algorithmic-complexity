@@ -1,0 +1,692 @@
+### Miniprojet 1 - Complexité et algorithmique
+#
+### Exercice 3
+#
+### Samples :
+#
+# - Find the first symbol of a word m of size 130 :
+# ADCAADDAAACACDDDABBDBBBDADCBAACCDBADBBCBABBBBDBDABCACBDCCDDDBBBDADCCDDACBCDCABABCABDBBCDADADCDBCBBAABDBCDBDDDCAADBBBDACCACCDCDABCCX1
+## Expected output : A
+#
+# - Find the thirty-sixth symbol of a word m of size 50
+# BAADCCDDBACCDCADABBABAACACDABBADCDDBCDBCADDBBACCACX100100
+## Expected output : B
+#
+# - Find the last symbol of a word of size 31
+# AACCCBDAACCADCCBBABAAABBDBCBBCDX11111
+## Expected output : D
+#
+# - Try to find a symbol of index greather than the length of m
+# ABABBDBDCCADAACADABAADCCDDCBDCCBDDBACDCDADACCDDBCBDDCACX1001101 X
+## Expected output : X
+
+### Alphabet (33) :
+# a, b, c, d
+# A, B, C, D
+# X
+# 0, 1
+# o, i, I, 0
+# z, Z
+# q, Q, r, R, s, S, t, T
+# u, U, v, V, w, W, y, Y
+#
+### Table of correspondance : 
+#
+#                 +-------+-------+----+
+#                 |track_1|track_2|tape|
+#                 +-------+-------+----+
+#                 |   a   |   _   | a  |
+#                 +-------+-------+----+
+#                 |   b   |   _   | b  |
+#                 +-------+-------+----+
+#                 |   c   |   _   | c  |
+#                 +-------+-------+----+
+#                 |   d   |   _   | d  |
+#                 +-------+-------+----+
+#                 |   A   |   _   | A  |
+#                 +-------+-------+----+
+#                 |   B   |   _   | B  |
+#                 +-------+-------+----+
+#                 |   C   |   _   | C  |
+#                 +-------+-------+----+
+#                 |   D   |   _   | D  |
+#                 +-------+-------+----+
+#                 |   X   |   _   | X  |
+#                 +-------+-------+----+
+#                 |   0   |   _   | 0  |
+#                 +-------+-------+----+
+#                 |   1   |   _   | 1  |
+#                 +-------+-------+----+
+#                 |   _   |   _   | _  |
+#                 +-------+-------+----+
+#                 |   a   |   0   | u  |
+#                 +-------+-------+----+
+#                 |   b   |   0   | v  |
+#                 +-------+-------+----+
+#                 |   c   |   0   | w  |
+#                 +-------+-------+----+
+#                 |   d   |   0   | y  |
+#                 +-------+-------+----+
+#                 |   A   |   0   | q  |
+#                 +-------+-------+----+
+#                 |   B   |   0   | r  |
+#                 +-------+-------+----+
+#                 |   C   |   0   | s  |
+#                 +-------+-------+----+
+#                 |   D   |   0   | t  |
+#                 +-------+-------+----+
+#                 |   X   |   0   | z  |
+#                 +-------+-------+----+
+#                 |   0   |   0   | o  |
+#                 +-------+-------+----+
+#                 |   1   |   0   | i  |
+#                 +-------+-------+----+
+#                 |   _   |   0   | 0  |
+#                 +-------+-------+----+
+#                 |   a   |   1   | U  |
+#                 +-------+-------+----+
+#                 |   b   |   1   | V  |
+#                 +-------+-------+----+
+#                 |   c   |   1   | W  |
+#                 +-------+-------+----+
+#                 |   d   |   1   | Y  |
+#                 +-------+-------+----+
+#                 |   A   |   1   | Q  |
+#                 +-------+-------+----+
+#                 |   B   |   1   | R  |
+#                 +-------+-------+----+
+#                 |   C   |   1   | S  |
+#                 +-------+-------+----+
+#                 |   D   |   1   | T  |
+#                 +-------+-------+----+
+#                 |   X   |   1   | Z  |
+#                 +-------+-------+----+
+#                 |   0   |   1   | I  |
+#                 +-------+-------+----+
+#                 |   1   |   1   | O  |
+#                 +-------+-------+----+
+#                 |   _   |   1   | 1  |
+#                 +-------+-------+----+
+
+NEW "EXO3" 1
+START @I
+END @YES "YES"
+UNDEFINED @NO "NO"
+
+# Step 1 - Computes |m| in base 2 : COUNT_
+
+FROM @I
+# Expected symbols on the first track :
+# A, B, C, D
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# A, B, C, D
+
+'A|'B|'C|'D S @COUNT
+
+FROM @COUNT
+# Expected symbols on the first track :
+# a, b, c, d, A, B, C, D, X
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, A, B, C, D, X
+# u, v, w, y, q, r, s, t, z
+# U, V, W, Y, Q, R, S, T, Z
+
+'a|'b|'c|'d R 
+'u|'v|'w|'y R 
+'U|'V|'W|'Y R 
+'A|'B|'C|'D 'a|'b|'c|'d R @COUNT2
+'q|'r|'s|'t 'u|'v|'w|'y R @COUNT2
+'Q|'R|'S|'T 'U|'V|'W|'Y R @COUNT2
+'X|'Z|'z R @COUNT_WRITE_ZERO
+
+FROM @COUNT2
+# Expected symbols on the first track :
+# a, b, c, d, A, B, C, D, X
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, A, B, C, D, X
+# u, v, w, y, q, r, s, t, z
+# U, V, W, Y, Q, R, S, T, Z
+
+'a|'b|'c|'d R 
+'u|'v|'w|'y R 
+'U|'V|'W|'Y R 
+'A|'B|'C|'D R @COUNT
+'q|'r|'s|'t R @COUNT
+'Q|'R|'S|'T R @COUNT
+'X|'Z|'z R @COUNT_WRITE_ONE
+
+FROM @COUNT_WRITE_ZERO
+# Expected symbols on the first track :
+# 0, 1, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1, _
+# o, i
+# I, O
+
+'0|'1|'o|'i|'I|'O R
+'_ L @COUNT_WRITE_ZERO_2
+
+FROM @COUNT_WRITE_ZERO_2
+# Expected symbols on the first track :
+# 0, 1, a, b, c, d, A, B, C, D, X
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1, a, b, c, d, A, B, C, D, X
+# o, i, u, v, w, y, q, r, s, t, z
+# I, O, U, V, W, Y, Q, R, S, T, Z
+
+'0|'1|'X 'o|'i|'z L @COUNT_MOVE_TO_LEFT
+'a|'b|'c|'d|'A|'B|'C|'D 'u|'v|'w|'y|'q|'r|'s|'t R @COUNT_RETURNTOX
+'o|'i|'O|'I L 
+'u|'v|'w|'y L 
+'q|'r|'s|'t L 
+'U|'V|'W|'Y L 
+'Q|'R|'S|'T L 
+'z|'Z L 
+
+FROM @COUNT_WRITE_ONE
+# Expected symbols on the first track :
+# 0, 1, _
+# Expected symbols on the first track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1, _
+# o, i
+# I, O
+
+'0|'1|'o|'i|'I|'O R
+'_ L @COUNT_WRITE_ONE_2
+
+FROM @COUNT_WRITE_ONE_2
+# Expected symbols on the first track :
+# 0, 1, a, b, c, d, A, B, C, D, X
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1, a, b, c, d, A, B, C, D, X
+# o, i, u, v, w, y, q, r, s, t, z
+# I, O, U, V, W, Y, Q, R, S, T, Z
+
+'0|'1|'X 'I|'O|'Z L @COUNT_MOVE_TO_LEFT
+'a|'b|'c|'d|'A|'B|'C|'D 'U|'V|'W|'Y|'Q|'R|'S|'T R @COUNT_RETURNTOX
+'o|'i|'O|'I L 
+'u|'v|'w|'y L 
+'q|'r|'s|'t L 
+'U|'V|'W|'Y L 
+'Q|'R|'S|'T L 
+'z|'Z L 
+
+# TODO: Pourquoi on ne peut pas tomber sur a, b, ..., C, D?
+FROM @COUNT_RETURNTOX
+# Expected symbols on the first track :
+# a, b, c, d, A, B, C, D, X
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# X
+# u, v, w, y, q, r, s, t, z
+# U, V, W, Y, Q, R, S, T, Z
+
+'u|'v|'w|'y R
+'U|'V|'W|'Y R
+'q|'r|'s|'t R
+'Q|'R|'S|'T R
+'X|'Z|'z L @COUNT_MOVE_TO_LEFT
+
+# TODO: Pourquoi on ne peut pas tomber sur o, i, I, o
+FROM @COUNT_MOVE_TO_LEFT
+# Expected symbols on the first track :
+# a, b, c, d, A, B, C, D, X, 0, 1, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, A, B, C, D, X, 0, 1, _
+# u, v, w, y, q, r, s, t, z
+# U, V, W, Y, Q, R, S, T, Z
+
+'a|'b|'c|'d L 
+'A|'B|'C|'D L @COUNT_MOVE_TO_LEFT_COUNT
+'0|'1 L 
+'X|'Z|'z L 
+'u|'v|'w|'y L 
+'q|'r|'s|'t L @COUNT_MOVE_TO_LEFT_COUNT
+'U|'V|'W|'Y L 
+'Q|'R|'S|'T L @COUNT_MOVE_TO_LEFT_COUNT
+'_ R @COUNT_MOVE_TO_RIGHT
+
+# TODO: Pourquoi on ne peut pas tomber sur 0, 1, X, Z, z, etc.
+FROM @COUNT_MOVE_TO_LEFT_COUNT
+# Expected symbols on the first track :
+# a, b, c, d, A, B, C, D, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, A, B, C, D, _ 
+# u, v, w, y, q, r, s, t
+# U, V, W, Y, Q, R, S, T
+
+'a|'b|'c|'d|'A|'B|'C|'D L 
+'u|'v|'w|'y|'q|'r|'s|'t L 
+'U|'V|'W|'Y|'Q|'R|'S|'T L 
+'_ R @COUNT
+
+FROM @COUNT_MOVE_TO_RIGHT
+# Expected symbols on the first track :
+# a, b, c, d, X, 0, 1, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, 0, 1, _
+# u, v, w, y, z, o, i
+# U, V, W, Y, Z, I, O
+
+'a|'b|'c|'d|'X|'0|'1 R
+'u|'v|'w|'y|'z|'o|'i R
+'U|'V|'W|'Y|'Z|'I|'O R
+'_ L @SUBTRACT
+
+# Step 2 - Computes the required number of shift of the counter : SUBTRACT_
+FROM @SUBTRACT
+# Expected symbols on the first track :
+# 0, 1, X, a, b, c, d
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1, X, a, b, c, d
+# o, i, z, u, v, w, y
+# I, O, Z, U, V, W, Y
+
+'o '0 L 
+'i '1 L @SUBTRACT_WITH_BORROW
+'I '1 L 
+'O '0 L 
+'Z|'z L 
+'u|'v|'w|'y L 
+'U|'V|'W|'Y L 
+'a|'b|'c|'d|'X R @POSITIONING_CHECK_COUNTER_POSITION
+'1|'0 '_ R @ERASE_RIGHT
+
+FROM @SUBTRACT_WITH_BORROW
+# Expected symbols on the first track :
+# 0, 1, X, a, b, c, d
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1, X
+# o, i, z, u, v, w, y
+# I, O, Z, U, V, W, Y
+
+'o '1 L @SUBTRACT_WITH_BORROW
+'i '0 L @SUBTRACT_WITH_BORROW
+'I '0 L @SUBTRACT
+'O '1 L @SUBTRACT_WITH_BORROW
+'z 'Z L @SUBTRACT_WITH_BORROW
+'Z 'z L @SUBTRACT
+'u|'v|'w|'y 'U|'V|'W|'Y L @SUBTRACT_WITH_BORROW
+'U|'V|'W|'Y 'u|'v|'w|'y L @SUBTRACT
+'X|'1|'0 R @ERASE_RIGHT
+
+# Step 3 - Shifts the counter until the most significant bit is overlaid over the symbol X : POSITIONING_
+FROM @POSITIONING_CHECK_COUNTER_POSITION
+# Expected symbols on the first track :
+# a, b, c, d, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# 0, 1
+# u, v, w, y
+# U, V, W, Y
+
+'u|'v|'w|'y|'U|'V|'W|'Y R @POSITIONING_SHIFT_COUNTER_RIGHT_UNTIL_X
+'z|'Z R @SEARCH_MOVE_TO_COUNTER_RIGHT_FROM_RIGHT
+'0|'1 S @POSITIONING_SHIFT_LEFT_ONCE_1
+
+FROM @POSITIONING_SHIFT_COUNTER_RIGHT_UNTIL_X
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# _
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+'u|'v|'w|'y|'z|'0 R
+'U|'V|'W|'Y|'Z|'1 R
+'_ L @POSITIONING_SHIFT_RIGHT_STEP1
+
+FROM @POSITIONING_SHIFT_RIGHT_STEP1
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# _
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+
+'u|'v|'w|'y 'a|'b|'c|'d R @POSITIONING_SHIFT_RIGHT_WRITE_ZERO
+'z 'X R @POSITIONING_SHIFT_RIGHT_WRITE_ZERO
+'0 '_ R @POSITIONING_SHIFT_RIGHT_WRITE_ZERO
+'U|'V|'W|'Y 'a|'b|'c|'d R @POSITIONING_SHIFT_RIGHT_WRITE_ONE
+'Z 'X R @POSITIONING_SHIFT_RIGHT_WRITE_ONE
+'1 '_ R @POSITIONING_SHIFT_RIGHT_WRITE_ONE
+
+
+FROM @POSITIONING_SHIFT_RIGHT_WRITE_ZERO
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+
+'a|'b|'c|'d 'u|'v|'w|'y L @POSITIONING_SHIFT_RIGHT_STEP2
+'X 'z L @POSITIONING_SHIFT_RIGHT_STEP2
+'_ '0 L @POSITIONING_SHIFT_RIGHT_STEP2
+
+FROM @POSITIONING_SHIFT_RIGHT_WRITE_ONE
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+
+'a|'b|'c|'d 'U|'V|'W|'Y L @POSITIONING_SHIFT_RIGHT_STEP2
+'X 'Z L @POSITIONING_SHIFT_RIGHT_STEP2
+'_ '1 L @POSITIONING_SHIFT_RIGHT_STEP2
+
+FROM @POSITIONING_SHIFT_RIGHT_STEP2
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+
+'a|'b|'c|'d L @POSITIONING_CHECK_NEXT
+'X|'_ L @POSITIONING_SHIFT_RIGHT_STEP1
+
+FROM @POSITIONING_SHIFT_LEFT_ONCE_1
+# Expected symbols on the first track :
+# _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# _
+# 0
+# 1
+
+'0 '_ L @POSITIONING_SHIFT_LEFT_ONCE_WRITE_ZERO
+'1 '_ L @POSITIONING_SHIFT_LEFT_ONCE_WRITE_ONE
+'_ L @SEARCH_MOVE_TO_COUNTER_LEFT
+
+FROM @POSITIONING_SHIFT_LEFT_ONCE_WRITE_ZERO
+# Expected symbols on the first track :
+# X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# X, _
+
+'X 'z R @POSITIONING_SHIFT_LEFT_ONCE_2
+'_ '0 R @POSITIONING_SHIFT_LEFT_ONCE_2
+
+FROM @POSITIONING_SHIFT_LEFT_ONCE_WRITE_ONE
+# Expected symbols on the first track :
+# X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# X, _
+'X 'Z R @POSITIONING_SHIFT_LEFT_ONCE_2
+'_ '1 R @POSITIONING_SHIFT_LEFT_ONCE_2
+
+# TODO: _2 -> better name
+FROM @POSITIONING_SHIFT_LEFT_ONCE_2
+# Expected symbols on the first track :
+# _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# _
+'_ R @POSITIONING_SHIFT_LEFT_ONCE_1
+
+FROM @POSITIONING_CHECK_NEXT
+# Expected symbols on the first track :
+# a, b, c, d
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d
+# u, v, w, y
+# U, V, W, Y
+'a|'b|'c|'d R @POSITIONING_ONE_STEP_RIGHT
+'u|'v|'w|'y|'U|'V|'W|'Y S @POSITIONING_SHIFT_RIGHT_STEP1
+
+FROM @POSITIONING_ONE_STEP_RIGHT
+# Expected symbols on the first track :
+# a, b, c, d
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d
+
+'a|'b|'c|'d R @POSITIONING_CHECK_SHIFT_RIGHT
+
+FROM @POSITIONING_CHECK_SHIFT_RIGHT
+# Expected symbols on the first track :
+# a, b, c, d, X
+# Expected symbols on the second track :
+# 0, 1
+# Expected symbols on the tape :
+# u, v, w, y, z
+# U, V, W, Y, Z
+
+'u|'v|'w|'y|'U|'V|'W|'Y S @POSITIONING_SHIFT_COUNTER_RIGHT_UNTIL_X
+# Go to step 4
+'z|'Z S @SEARCH_MOVE_TO_COUNTER_RIGHT_FROM_RIGHT
+
+# Step 4 : Decrements and shift the counter until it equals 0
+FROM @SEARCH_MOVE_TO_COUNTER_RIGHT_FROM_RIGHT
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+
+'a|'b|'c|'d|'_|'X L @SEARCH_DECREMENT
+'u|'v|'w|'y R 
+'U|'V|'W|'Y R 
+'z|'0|'Z|'1 R 
+
+FROM @SEARCH_DECREMENT
+# Expected symbols on the first track :
+# a, b, c, d, X
+# Expected symbols on the second track :
+# 0, 1
+# Expected symbols on the tape :
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+'u|'v|'w|'y 'U|'V|'W|'Y L 
+'z 'Z L 
+'0 '1 L 
+'U|'V|'W|'Y 'u|'v|'w|'y L @SEARCH_MOVE_TO_COUNTER_LEFT_BIS
+'Z 'z L @SEARCH_MOVE_TO_COUNTER_LEFT_BIS
+'1 '0 L @SEARCH_MOVE_TO_COUNTER_LEFT_BIS
+
+FROM @SEARCH_MOVE_TO_COUNTER_LEFT
+# Expected symbols on the first track :
+# a, b, c, d, X
+# Expected symbols on the second track :
+# 0, 1
+# Expected symbols on the tape :
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+'X    L 
+'0|'1 L 
+'Z|'z L 
+'u|'v|'w|'y L 
+'U|'V|'W|'Y L 
+'a|'b|'c|'d R @SEARCH_CHECK_ZERO
+'_ L 
+
+FROM @SEARCH_MOVE_TO_COUNTER_LEFT_BIS
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+'a|'b|'c|'d R @SEARCH_SHIFT_LEFT1
+'u|'v|'w|'y|'z|'0 L 
+'U|'V|'W|'Y|'Z|'1 L 
+
+FROM @SEARCH_CHECK_ZERO
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+
+'a|'b|'c|'d|'X|'_ S @ERASE_RIGHT
+'u|'v|'w|'y|'z|'0 R 
+'U|'V|'W|'Y|'Z|'1 R @SEARCH_MOVE_TO_COUNTER_RIGHT_FROM_RIGHT
+
+FROM @SEARCH_SHIFT_LEFT1
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+
+'a|'b|'c|'d|'X|'_ L @SEARCH_MOVE_TO_COUNTER_RIGHT_FROM_LEFT
+'u|'v|'w|'y 'a|'b|'c|'d L @SEARCH_SHIFT_LEFT_WRITE_ZERO
+'z 'X L @SEARCH_SHIFT_LEFT_WRITE_ZERO
+'0 '_ L @SEARCH_SHIFT_LEFT_WRITE_ZERO
+'U|'V|'W|'Y 'a|'b|'c|'d L @SEARCH_SHIFT_LEFT_WRITE_ONE
+'Z 'X L @SEARCH_SHIFT_LEFT_WRITE_ONE
+'1 '_ L @SEARCH_SHIFT_LEFT_WRITE_ONE
+
+FROM @SEARCH_SHIFT_LEFT_WRITE_ONE
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+
+'a|'b|'c|'d 'U|'V|'W|'Y R @SEARCH_SHIFT_LEFT2
+'X 'Z R @SEARCH_SHIFT_LEFT2
+'_ '1 R @SEARCH_SHIFT_LEFT2
+
+FROM @SEARCH_SHIFT_LEFT_WRITE_ZERO
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+
+'a|'b|'c|'d 'u|'v|'w|'y R @SEARCH_SHIFT_LEFT2
+'X 'z R @SEARCH_SHIFT_LEFT2
+'_ '0 R @SEARCH_SHIFT_LEFT2
+
+FROM @SEARCH_SHIFT_LEFT2
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+
+'a|'b|'c|'d R @SEARCH_SHIFT_LEFT1
+'X|'_ R @SEARCH_SHIFT_LEFT1
+
+FROM @SEARCH_MOVE_TO_COUNTER_RIGHT_FROM_LEFT
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+# u, v, w, y, z, 0
+# U, V, W, Y, Z, 1
+
+'a|'b|'c|'d|'X|'_ L
+'u|'v|'w|'y|'z|'0 L @SEARCH_MOVE_TO_COUNTER_LEFT
+'U|'V|'W|'Y|'Z|'1 L @SEARCH_MOVE_TO_COUNTER_LEFT
+
+# Step 5 : Removes the symbols located around the counter : ERASE_
+FROM @ERASE_RIGHT
+# Expected symbols on the first track :
+# a, b, c, d, X, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+# 0
+# 1
+
+'a|'b|'c|'d|'X '_ R
+'0 '_ R
+'1 '_ R
+'_ L @ERASE_COUNTER
+
+FROM @ERASE_COUNTER
+# Expected symbols on the first track :
+# a, b, c, d, X, 0, 1, _
+# Expected symbols on the second track :
+# _, 0, 1
+# Expected symbols on the tape :
+# a, b, c, d, X, _
+# u, v, w, y, z, o, i, 0
+# U, V, W, Y, Z, O, I, 1
+
+'a|'b|'c|'d 'A|'B|'C|'D L @ERASE_LEFT
+'X L @ERASE_LEFT
+'u|'v|'w|'y|'z|'o|'i|'0 '_ L 
+'U|'V|'W|'Y|'Z|'I|'O|'1 '_ L 
+'_ L
+
+FROM @ERASE_LEFT
+# Expected symbols on the first track :
+# a, b, c, d, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# a, b, c, d, _
+
+'a|'b|'c|'d '_ L 
+'_ S @ERASE_GO_TO_NTH
+
+FROM @ERASE_GO_TO_NTH
+# Expected symbols on the first track :
+# A, B, C, D, _
+# Expected symbols on the second track :
+# _
+# Expected symbols on the tape :
+# A, B, C, D, _
+
+'A|'B|'C|'D|'X S @YES
+'_ R 
