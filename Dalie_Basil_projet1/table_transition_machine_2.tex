@@ -1,0 +1,73 @@
+\chapter{Table de transition - machine 2}
+\begin{table}
+  \begin{longtable}{| c | c | c | c | c | c |}
+    \hline
+    état & lecture & écriture & déplacement & nouvel état & remarques \\
+    \hline
+    $q_0$ & 1 & 1 & R & $q_0$ & I \\
+    & X & X & R & $q_0$ & \\
+    & D & D & R & $q_0$ & \\
+    & C & C & R & $q_0$ & \\
+    & B & B & R & $q_0$ & \\
+    & A & A & R & $q_0$ & \\
+    & \_ & \_ & L & $q_1$ & \\
+    \hline
+    $q_1$ & 1 & \_ & L & $q_2$ & ERASE\_FIRST\_DIGIT \\
+    \hline
+    $q_2$ & 1 & \_ & L & $q_3$ & ERASE\_DIGIT \\
+    & X & X & L & $q_6$ & \\
+    \hline
+    $q_3$ & 1 & 1 & L & $q_3$ & MOVE\_TO\_WORD\_LEFT \\
+    & X & X & L & $q_3$ & \\
+    & D & D & L & $q_3$ & \\
+    & C & C & L & $q_3$ & \\
+    & B & B & L & $q_3$ & \\
+    & A & A & L & $q_3$ & \\
+    & \_ & \_ & R & $q_4$ & \\
+    \hline
+    $q_4$ & D & \_ & R & $q_5$ & ERASE\_SYMBOL \\
+    & C & \_ & R & $q_5$ & \\
+    & B & \_ & R & $q_5$ & \\
+    & A & \_ & R & $q_5$ & \\
+    & X & X & R & $q_{10}$ & \\
+    \hline
+    $q_5$ & 1 & 1 & R & $q_5$ & MOVE\_TO\_WORD\_RIGHT \\
+    & X & X & R & $q_5$ & \\
+    & D & D & R & $q_5$ & \\
+    & C & C & R & $q_5$ & \\
+    & B & B & R & $q_5$ & \\
+    & A & A & R & $q_5$ & \\
+    & \_ & \_ & L & $q_2$ & \\
+    \hline
+    $q_6$ & D & D & L & $q_6$ & ERASE\_MOVE\_TO\_WORD\_LEFT \\
+    & C & C & L & $q_6$ & \\
+    & B & B & L & $q_6$ & \\
+    & A & A & L & $q_6$ & \\
+    & \_ & \_ & R & $q_7$ & \\
+    \hline
+    $q_7$ & D & D & R & $q_8$ & ERASE\_MOVE\_RIGHT\_ONCE \\
+    & C & C & R & $q_8$ & \\
+    & B & B & R & $q_8$ & \\
+    & A & A & R & $q_8$ & \\
+    & X & X & S & $q_f$ & \\
+    \hline
+    $q_8$ & D & \_ & R & $q_8$ & ERASE\_RIGHT \\
+    & C & \_ & R & $q_8$ & \\
+    & B & \_ & R & $q_8$ & \\
+    & A & \_ & R & $q_8$ & \\
+    & X & \_ & S & $q_9$ & \\
+    \hline
+    $q_9$ & \_ & \_ & L & $q_9$ & MOVE\_TO\_NTH \\
+    & X & X & S & $q_f$ & \\
+    & D & D & S & $q_f$ & \\
+    & C & C & S & $q_f$ & \\
+    & B & B & S & $q_f$ & \\
+    & A & A & S & $q_f$ & \\
+    \hline
+    $q_{10}$ & 1 & \_ & R & $q_{10}$ & CASE\_N\_GT\_LENGTH\_OF\_M\_ERASE\_RIGHT \\
+    & \_ & \_ & L & $q_9$ & \\
+    \hline
+  \end{longtable}
+  \caption{Table de transition - machine 2}
+\end{table}
+

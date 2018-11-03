@@ -1,0 +1,34 @@
+* To do
+** DONE tête de lecture -> tête de lecture/écriture
+** DONE Demander à papa pour "le nombre de transition est égal à $N - |s|$ avec $|s| < N - 2$"
+** TODO Pourquoi on ne peut pas tomber sur un a,b,c,d dans l'état soustraction avec retenue
+** TODO Expliquer differences entre les versions des deux simulateurs
+*** On tombe sur un X dans une soustraction avec retenue
+*** Check zero si besoin shift_counter_left_once avant de décrémenter dans la version AMS
+** TODO Avis sur les deux simulateurs
+*** sous-machines
+*** Condition not
+*** Tests
+*** Obligations fleches droites, esthetique
+*** visualturing : label sous write symbol plus clair
+*** visualturing : breakpoint
+   
+*** visualturing : perte de temps à construire des sous-machines cohérentes
+*** AMS : vitesse simulation plus rapide + option -r
+
+** TODO Introduction : parler des simulateurs
+** TODO Pour les descriptions, on utilisera les propriété des machines pour le simulateur AMS
+** TODO L'unique chiffre ...
+** TODO Change L,R in table to G,D
+** TODO Correcteur ortographique
+** TODO Dire que N = long(m + X + n)
+* LaTeX
+** TODO Introduction : n-ème accent
+** TODO Numeration
+** TODO Chapter
+** TODO Taille de la taille de transition : e1 e2 l1 l2 ...
+** TODO Multipage table
+
+** TODO Mettre tous les symboles mathématiques en math mode
+* Maybe
+** TODO Remplacer _ par B

@@ -1,0 +1,41 @@
+\chapter{Première solution}
+\section{Description}
+La première solution pour la recherche du $n\up{ème}$ bit est une machine de Turing à une bande, le nombre $n$ est donné en unaire. la complexité de l'algorithme est de l'ordre de $O(N^2)$.
+
+\subsection{Alphabet}
+Comme pour la première solution, l'ensemble des symboles $T$ est égal à l'union de l'ensemble des symboles de données $I$ avec l'ensemble $\{\_\}$ où le symbole $\_$ représente le symbole blanc. Ses éléments sont : $\{A, B, C, D, X, 1, \_\}$, le symbole $1$ représente l'unique chiffre pour représenter la donnée $n$ en unaire.
+
+\subsection{Ensemble d'état}
+La machine de turing comporte 11 états en comptant l'état final $q_f$.
+
+\subsection{Fonction de transition}
+Voir table de transition en annexe B.
+
+\subsection{Description de l'algorithme}
+Au démarrage de l'algorithme, la tête de lecture/écriture se trouve sur le premier symbole du mot $m$. A l'état initial ($q_0$), tant qu'un symbole parmi $\{A, B, C D, X\}$ est lu, la tête de lecture écriture se déplace vers la droite. Lorsque le symbole blanc est lu, elle se déplace vers la gauche et la machine passe dans l'état $q_1$ (Effaçage du dernier symbole du nombre $n$).
+
+Si le mot est bien formé, un symbole $1$ est lu sur la bande, celui-ci est écrasé, la tête de lecture/écriture se déplace vers la gauche et la machine passe dans l'état $q_2$ (Effaçage d'un symbole du nombre $n$).
+
+Dans cet état, si un symbole $1$ est lu sur la bande, celui-ci est écrasé et la machine passe dans l'état $q_3$ (Déplacement de la tête de lecture/écriture sur le symbole le plus à gauche du mot $m$). Par contre, si c'est le séparateur $X$ qui est lu, cela veut dire que tous les symboles du nombre $n$ ont été consommé et donc que le symbole à retourner est le symbole le plus à gauche du mot $m$. Dans ce cas, la machine passe dans l'état $q_6$ (Déplacement sur le symbole le plus à gauche du mot $m$). Dans les deux cas, la tête de lecture/écriture se déplace vers la gauche.
+
+Dans l'état $q_3$ la tête de lecture se déplace à gauche tant qu'on lit un symbole parmi $\{A, B, C, D, X, 1\}$, quand le symbole blanc est lu, la machine passe dans l'état $q_4$ (Effaçage du symbole le plus à gauche du mot $m$).
+
+A ce moment si la tête de lecture/écriture lit un symbole parmi $\{A, B, C, D\}$, on se trouve dans le cas où $n \leq long(m)$ et alors on l'efface et la machine passe dans l'état $q_5$ (Déplacement sur le dernier symbole du mot $n$). Dans le cas contraire, si le symbole $X$ est lu, on se trouve dans le cas où $n > long(m)$, alors la machine passe dans l'état $q_{10}$ (Effaçage les symboles non consommés du nombre $n$). Dans les deux cas, la tête de lecture écriture se déplace vers la droite.
+
+Dans l'état $q_{10}$, tant qu'un symbole $1$ est lu sur la bande, la tête de lecture/écriture se déplace vers la droite et quand un symbole blanc est lu elle se déplace vers la gauche et la machine entre dans l'état $q_9$ (Déplacement de la tête de lecture/écriture sur le symbole à renvoyer).
+
+Dans l'état $q_5$, tant qu'un symbole parmi $\{A, B, C, D, X\}$ est lu par la tête de lecture/écriture, celle-ci se déplace vers la droite jusqu'à ce qu'un symbole blanc soit lu, le cas échéant elle se déplace vers la gauche et la machine retourne dans l'état $q_2$ (Effaçage d'un symbole du nombre $n$).
+
+Dans l'état $q_6$, tant qu'un symbole parmi $\{A, B, C, D}$ est lu par la tête de lecture/écriture, celle-ci se déplace vers la gauche jusqu'à ce qu'un symbole blanc soit lu, à ce moment elle se déplace vers la droite et la machine entre dans l'état $q_7$ (Déplacement de la tête de lecture d'une position vers la droite).
+
+Dans l'état $q_7$, si un symbole parmi $\{A, B, C, D}$ est lu par la tête de lecture/écriture, celle-ci se déplace vers la droite et la machine passe dans l'état $q_8$ (Effaçage des symboles situés à droite du symbole à renvoyer). Par contre si le délimiteur X est lu, on est dans le cas où $n = long(m) + 1$ et on peut passer directement dans l'état final $q_f$.
+
+Dans l'état $q_8$, tant qu'un symbole parmi $\{A, B, C, D}$ est lu par la tête de lecture/écriture, celle-ci se déplace vers la droite, le symbole est effacé et la machine passe dans l'état $q_9$ (Déplacement de la tête de lecture/écriture sur le symbole à renvoyer).
+
+Dans l'état $q_9$, tant qu'un symbole blanc est lu sur la bande, la tête de lecture/écriture se déplace vers la gauche. Au premier symbole lu parmi $\{A, B, C, D, X\}$, le symbole à retourner est atteint est la machine passe entre dans l'état final $q_f$.
+
+Dans l'état $q_{10}$ (Effaçage les symboles non consommés du nombre $n$), la tête de lecture/écriture se déplace à droite et le symbole courant est effacé tant que ce dernier est un $1$, quand le symbole blanc est atteint, la tête de lecture/écriture se déplace vers la gauche et la machine passe dans l'état $q_9$ (Déplacement de la tête de lecture/écriture sur le symbole à renvoyer)
+
+
+\subsection{Preuve de l'algorithme}
+\subsection{Analyse de la complexité}

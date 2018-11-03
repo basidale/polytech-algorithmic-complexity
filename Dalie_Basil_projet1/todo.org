@@ -1,0 +1,19 @@
+* To do
+** DONE exo1/2 : Go to the letter
+** DONE Find betters names for states 
+** DONE exo2: n plus grand que longueur de m - Effacer le compteur
+** DONE visualturing : fix arrow a la place de transition nothing
+** DONE visualturing : test non-determinisme
+** test mot longueur 1
+** TODO Est-ce qu'on doit vérifier que le mot est bien formé?
+** TODO Find differents samples of the different versions
+** TODO exo3: COUNT_WRITE_ZERO_2 et COUNT_WRITE_ONE_2
+** TODO exo4 : tape_left
+** TODO essayer de changer le maximum de S
+** TODO Simplifier exo1
+** TODO étape search : Effacer au fur et a mesure shift 
+** TODO Respect delivery standards :
+*** TODO exo1.tur/.txt -> MACHINE_1.tur/.txt
+* Maybe
+** TODO Virer positioning_shift_right_write_zero, positioning_shift_right_write_one de positioning_check_next
+** TODO Le symbole à renvoyer ...

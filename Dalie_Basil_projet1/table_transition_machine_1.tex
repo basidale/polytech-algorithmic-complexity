@@ -1,0 +1,77 @@
+\chapter{Table de transition - machine 1}
+\begin{table}
+  \begin{longtable}{| c | c c | c c | c c | c | c |}
+    \hline
+    état & l1 & l2 & e1 & e2 & d1 & d2 & nouvel état & remarques \\
+    \hline
+    $q_0$ & A & \_ & A & \_ & R & S & $q_0$ & MOVE\_TO\_X\_ON\_TAPE\_ONE \\
+         & B & \_ & B & \_ & R & S & $q_0$ & \\
+         & C & \_ & C & \_ & R & S & $q_0$ & \\
+         & D & \_ & D & \_ & R & S & $q_0$ & \\
+         & X & \_ & X & \_ & R & S & $q_1$ & \\
+    \hline 
+    $q_1$ & 1 & \_ & \_ & 1 & R & R & $q_1$ & WRITE\_N\_ON\_TAPE\_TWO \\
+         & \_ & \_ & \_ & \_ & L & L & $q_2$ & \\
+    \hline
+    $q_2$ & \_ & 1 & \_ & 1 & L & S & $q_2$ & MOVE\_TO\_WORD\_RIGHT\_ON\_TAPE\_ONE \\
+         & X & 1 & X & 1 & L & S & $q_3$ & \\
+    \hline
+    $q_3$ & A & 1 & A & 1 & L & S & $q_3$ & MOVE\_TO\_WORD\_LEFT\_ON\_TAPE\_ONE \\
+         & B & 1 & B & 1 & L & S & $q_3$ & \\
+         & C & 1 & C & 1 & L & S & $q_3$ & \\
+         & D & 1 & D & 1 & L & S & $q_3$ & \\
+         & \_ & 1 & \_ & 1 & R & S & $q_4$ & \\
+    \hline
+    $q_4$ & A & 1 & A & 1 & S & L & $q_4$ & MOVE\_TO\_WORD\_LEFT\_ON\_TAPE\_TWO \\
+         & B & 1 & B & 1 & S & L & $q_4$ & \\
+         & C & 1 & C & 1 & S & L & $q_4$ & \\
+         & D & 1 & D & 1 & S & L & $q_4$ & \\
+         & A & \_ & A & \_ & S & R & $q_5$ & \\
+         & B & \_ & B & \_ & S & R & $q_5$ & \\
+         & C & \_ & C & \_ & S & R & $q_5$ & \\
+         & D & \_ & D & \_ & S & R & $q_5$ & \\
+    \hline
+    $q_5$ & A & 1 & A & 1 & R & R & $q_5$ & ERASE\_RIGHT \\
+         & B & 1 & B & 1 & R & R & $q_5$ & \\
+         & C & 1 & C & 1 & R & R & $q_5$ & \\
+         & D & 1 & D & 1 & R & R & $q_5$ & \\
+         & A & \_ & \_ & \_ & R & R & $q_5$ & \\
+         & B & \_ & \_ & \_ & R & R & $q_5$ & \\
+         & C & \_ & \_ & \_ & R & R & $q_5$ & \\
+         & D & \_ & \_ & \_ & R & R & $q_5$ & \\
+         & X & \_ & \_ & \_ & L & L & $q_6$ & \\
+         & X & 1 & X & 1 & L & L & $q_7$ & \\
+    \hline
+    $q_6$ & \_ & \_ & \_ & \_ & L & L & $q_6$ & MOVE\_TO\_NTH \\
+         & A & 1 & A & 1 & L & L & $q_7$ & \\
+         & B & 1 & B & 1 & L & L & $q_7$ & \\
+         & C & 1 & C & 1 & L & L & $q_7$ & \\
+         & D & 1 & D & 1 & L & L & $q_7$ & \\
+    \hline
+    $q_7$ & A & 1 & \_ & 1 & L & L & $q_7$ & ERASE\_LEFT \\
+         & B & 1 & \_ & 1 & L & L & $q_7$ & \\
+         & C & 1 & \_ & 1 & L & L & $q_7$ & \\
+         & D & 1 & \_ & 1 & L & L & $q_7$ & \\
+         & \_ & \_ & \_ & \_ & R & R & $q_8$ & \\
+    \hline
+    $q_8$ & A & 1 & A & \_ & S & R & $q_8$ & ERASE\_TAPE\_TWO \\
+         & B & 1 & B & \_ & S & R & $q_8$ & \\
+         & C & 1 & C & \_ & S & R & $q_8$ & \\
+         & D & 1 & D & \_ & S & R & $q_8$ & \\
+         & \_ & 1 & \_ & \_ & S & R & $q_8$ & \\
+         & A & \_ & A & \_ & S & L & $q_9$ & \\
+         & B & \_ & B & \_ & S & L & $q_9$ & \\
+         & C & \_ & C & \_ & S & L & $q_9$ & \\
+         & D & \_ & D & \_ & S & L & $q_9$ & \\
+         & \_ & \_ & \_ & \_ & S & L & $q_9$ & \\
+    \hline
+    $q_9$ & \_ & \_ & \_ & \_ & R & S & $q_9$ & MOVE\_TO\_NTH\_FINAL \\
+         & A & \_ & A & \_ & S & S & $q_f$ & \\
+         & B & \_ & B & \_ & S & S & $q_f$ & \\
+         & C & \_ & C & \_ & S & S & $q_f$ & \\
+         & D & \_ & D & \_ & S & S & $q_f$ & \\
+         & X & \_ & X & \_ & S & S & $q_f$ & \\
+    \hline
+  \end{longtable}
+  \caption{Table de transition - machine 1}
+\end{table}
