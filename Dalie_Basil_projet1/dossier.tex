@@ -4,6 +4,7 @@
 \usepackage{changepage}
 \usepackage{appendix}
 \usepackage{lmodern}
+\usepackage{amsmath}
 \title{Complexité et algorithmique - Miniprojet 1}
 \author{Basil dalié}
 \date{Novembre 2018}
@@ -72,19 +73,53 @@ Dans le cas où $n \leq long(m)$, il est évident qu'après la recopie des symbo
 Le cas où $n > long(m)$ est détecté lors du déplacement des deux tête de lecture/écriture vers la droite de manière synchronisée, si on lit le symbole $X$ sur la première bande et le symbole $1$ sur la seconde. A ce moment, les deux tête de lecture/écriture se trouvent alors sur le symbole à renvoyer et comme tous les symboles $1$ de la seconde bande ont été consommés, il reste seulement à effacer tous les symboles à gauche de $X$ sur la première bande puis d'effacer la seconde bande.
 
 \subsection{Analyse de la complexité}
-Comme décrit dans la section 2.1.4, les séquences de transition entre deux états différents de la machine menant au résultat attendu sont $q_0 \rightarrow q_1 \rightarrow q_2 \rightarrow q_3 \rightarrow q_4  \rightarrow q_5 (\rightarrow q_6)? \rightarrow q_7 \rightarrow q_8 \rightarrow q_9 \rightarrow q_f$. Pour obtenir la fonction $T(N)$ mesurant le nombre de transition à emprunter pour aboutir au résultat en fonction de la longueur de la donnée $N$, il suffit de calculer le nombre de transition effectuée dans chacun de ces états en fonction de $N$ puis d'en faire la somme.
+Comme décrit dans la section 2.1.4, les séquences de transition entre deux états différents de la machine menant au résultat attendu sont $q_0 \rightarrow q_1 \rightarrow q_2 \rightarrow q_3 \rightarrow q_4  \rightarrow q_5 (\rightarrow q_6)? \rightarrow q_7 \rightarrow q_8 \rightarrow q_9 \rightarrow q_f$. Pour obtenir la fonction $T(N)$ mesurant le nombre de transition à emprunter pour aboutir au résultat en fonction de la longueur de la donnée $N$, il suffit de calculer le nombre de transition effectuées dans chacun de ces états en fonction de $N$ puis d'en faire la somme.
 
 \begin{itemize}
-\item Pour $q_0$ le nombre de transition est égal à $N - |s|$ avec $|s| \leq N - 2$.
-\item Pour $q_1$ le nombre de transition est égal à $N - |P| + 1$ avec $|P| \leq N - 1$.
-\item Pour $q_2$ le nombre de transition est égal à $N - |p|$ avec $|P| \leq N - 2$.
-\item Pour $q_3$ le nombre de transition est égal à $N - |S|$ avec $|S| \leq N - 1$.
-\item Pour $q_4$ le nombre de transition est égal à $N - |P| + 1$
-\item Pour $q_5$ le nombre de transition est égal à $N - |s|$
-\item Pour $q_6$ le nombre de transition est égal à $$
-\item
+\item Pour $q_0$ le nombre de transition est égal à $N - |s|$ avec $|s| \leq N - 2$ donc strictement positif.
+\item Pour $q_1$ le nombre de transition est égal à $N - |P| + 1$ avec $|P| \leq N - 1$ donc strictement positif.
+\item Pour $q_2$ le nombre de transition est égal à $N - |p|$ avec $|P| \leq N - 2$ donc strictement positif.
+\item Pour $q_3$ le nombre de transition est égal à $N - |S|$ avec $|S| \leq N - 1$ donc strictement positif.
+\item Pour $q_4$ le nombre de transition est égal à $N - |P| + 1$ donc strictement positif
+\item Pour $q_5$ le nombre de transition est égal à $N - |s|$ qui est strictement positif
+\item Pour $q_6$ le nombre de transition est égal à $|p| - |s| + 1$ avec $|p| > |s|$ car $n \leq long(m)$ (autrement on n'entrerait pas dans cet état), ce qui revient à $N - 2 * |s|$ qui est strictement positif
+\item Pour $q_7$, le nombre de transition est égal à $N - |P| + 1$ si $n \leq long(m)$ ou $N - |S| + 1$ si $n > long(m)$ donc dans tous les cas $N - k + 1$ avec $k < N - 1$ qui est strictement positif
+\item Pour $q_8$, le nombre de transition est égal à $N - |P| + 1$ qui est strictement positif
+\item Pour $q_9$, le nombre de transition est égal à $N - |P|$ si $n \leq long(m)$ ou $N - |S|$ si $n > long(m)$ donc dans tous les cas $N - l + 1$ avec $l < N - 1$ qui est strictement positif
+\item Pour $q_f$, le nombre de transition est égal à $0$
 \end{itemize}
 
+\vspace{5mm}
+
+On en déduis la fonction $T(N) = 9 * N - |p| - 3 * |P| - 2 * |s| - |S| + 5 - k - l + (N - 2 * |s|)$ :
+
+\vspace{5mm}
+
+La définition de Big-O dit qu'une fonction f(x) est égale à O(g(x)) si il existe un facteur constant $c$ et un nombre réel $x_0$ tel que $|f(X)| \leq c * g(x)$.
+
+\vspace{5mm}
+
+Pour $x_0 = 0$ et $c = 1$, $|T(N)| \leq 9 * N + (N - 2 * |s|) + 5$ car $|p| < N$, $|P| < N$, $|s| < N$ et $|S| < N$ \\
+Donc $T(N) = O(9 * N + (N - 2 * |s|))$
+
+\vspace{5mm}
+
+Pour $x_0 = 0$ et $c = 1$, $|T(N)| \leq 10 * N + 5$ car $N - 2 * |s|$ est strictement positif \\
+Donc $T(N) = O(10 * N + 5)$
+
+\vspace{5mm}
+
+Pour $x_0 = 0$ et $c = 5$, $|T(N)| \leq 10 * N)$ \\
+Donc $T(N) = O(10 * N)$
+
+\vspace{5mm}
+
+Pour $x_0 = 0$ et $c = 10$, $|T(N)| \leq N)$ \\
+Donc $T(N) = O(N)$
+
+\vspace{5mm}
+
+On en déduis que la complexité de l'algorithme est dans l'ordre de $O(N)$.
 
 
 \begin{appendix}
